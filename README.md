@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Run This Project
+
+Run npx Create-React-App App-Name to build a new React app
+
+Install node js v20.12.2
+
+npm i to install npm v10.5.2
+
+Install react-router-dom for links
+
 ## Available Scripts
 
 In the project directory, you can run:
