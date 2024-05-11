@@ -1,12 +1,13 @@
 //Credit Cecilia Carbonell
-import './App.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function App() {
+function Admin() {
   const [returnedData, setReturnedData] = useState(['hello']);
+  const [dataBack, setDataBack] = useState(['oh, hello'])
   //useState is a hook for functional components that creates a state on a component-by-component basis
   const [user, setUser] = useState({Username: '', Password: '', UserType: '', HouseNumber: 0})
+  const [preference, setPreference] = useState({User_ID: 0, Food_ID: 0})
 
   //destructure event
   const setInput = (e) => {
@@ -28,11 +29,63 @@ function App() {
     }));
   }
 
+  const setPrefInput = (e) => {
+    const {name, value} = e.target;
+    console.log(value);
+    if (name === 'User_ID' || name === 'Food_ID') {
+        setPreference(prevState => ({
+            ...prevState,
+            [name]: parseInt(value)
+        }));
+        return;
+    }
+    setPreference(prevState => ({
+        ...prevState,
+        [name]: value
+    }))
+}
+
   //call backend
  const fetchData = async () => {
-    console.log(user);
     //fetch is a built-in library, makes it easier than axios
     const newData = await fetch('/api', {
+      //gets response from backend
+      method: 'POST',
+      //tells response how data is sent and accepted
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: user.Username
+      })
+    })
+    .then(res => res.json())
+    console.log(newData);
+    setReturnedData(newData[0])
+  } 
+
+  const getData = async (url) => {
+    console.log(preference);
+    const someData = await fetch('/test', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            name: preference.User_ID
+        })
+    })
+    .then(res => res.json());
+    console.log(someData);
+    setDataBack(someData[0]);
+}
+
+  const fetchPrefs = async () => {
+    console.log(user);
+    //fetch is a built-in library, makes it easier than axios
+    const newData = await fetch('/getpref', {
       //gets response from backend
       method: 'POST',
       //tells response how data is sent and accepted
@@ -68,35 +121,32 @@ function App() {
     setReturnedData(newData[0])
   } 
   return (
-    <div className="App">
+    <div className="Admin">
       <input 
         name="Username" 
         placeholder="Username" 
         onChange={setInput}></input>
-      <input 
-        name="Password" 
-        placeholder="Password" 
-        onChange={setInput}></input>
-      <input 
-        name="UserType" 
-        placeholder="Enter admin or client" 
-        onChange={setInput}></input>
-      <input 
-        type="number"
-        name="HouseNumber" 
-        placeholder="Number in Household" 
-        onChange={setInput}></input>
-      <button onClick={() => fetchData()}>Login</button>
-      <button onClick={() => addUser()}>Create Account</button>
+      <button onClick={() => fetchData()}>See Client Information</button>
+      <p>User ID: {returnedData.Users_ID}</p>
       <p>Username: {returnedData.Username}</p>
       <p>Password: {returnedData.Password}</p>
       <p>Number in Household: {returnedData.HouseNumber}</p>
-        <Link to="/admin">Welcome, admin. Click here!</Link>
-        <Link to="/preferences">Welcome, client. Click here!</Link>
-        <Link to="/ClientSchedule">Client Scheduling</Link>
-        <Link to="/Schedule">Volunteer Schedule</Link>
+      
+      <input 
+            type="number" 
+            name="User_ID" 
+            placeholder="User ID"
+            onChange={setPrefInput}></input>
+        <input 
+            type="number" 
+            name="Food_ID" 
+            placeholder="Food ID"
+            onChange={setPrefInput}></input>
+        <button onClick={() => getData('/testing')}>Look Up Preferences</button>
+        <p>Food ID: {dataBack.Food_ID}</p>
+        <Link to='/'>Home</Link>
     </div>
   );
 }
 
-export default App;
+export default Admin;
