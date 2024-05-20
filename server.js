@@ -45,6 +45,20 @@ app.post('/testing', async (req,res) => {
     res.send(result.recordset);
 })
 
+app.post('/timing', async(req, res) => {
+    await dbOperation.addTime(req.body);
+    const result = await dbOperation.getTimes(req.body.Username);
+    console.log('Called timing');
+    res.send(result.recordset);
+});
+
+app.post('/timed', async (req, res) => {
+    console.log('Called timed');
+    //async await
+    const result = await dbOperation.getTimes(req.body.name);
+    res.send(result.recordset);
+});
+
 // // let Janice = new Client(2, 'Janice', 1);
 
 // // //console.log(Janice);

@@ -95,6 +95,7 @@ function App() {
         <Link to="/preferences">Welcome, client. Click here!</Link>
         <Link to="/ClientSchedule">Client Scheduling</Link>
         <Link to="/Schedule">Volunteer Schedule</Link>
+        <Link to="/PickUps">Client Schedule</Link>
     </div>
   );
 }

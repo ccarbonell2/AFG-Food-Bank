@@ -8,6 +8,7 @@ import Admin from './Components/Admin';
 import Preferences from './Components/Preferences';
 import ClientSchedule from './Components/ClientSchedule';
 import Schedule from './Components/Schedule';
+import PickUps from './Components/PickUps';
 
 import {
   createBrowserRouter,
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "Schedule",
     element: <Schedule />,
+  },
+  {
+    path: "PickUps",
+    element: <PickUps />,
   }
 ]);
 

@@ -9,6 +9,9 @@ function Admin() {
   const [user, setUser] = useState({Username: '', Password: '', UserType: '', HouseNumber: 0})
   const [preference, setPreference] = useState({User_ID: 0, Food_ID: 0})
 
+  // const [time, setTime] = useState({Users_ID: 0, Time: ''})
+  // const [gotData, setGotData] = useState({Users_ID: 0, Time: ''})
+
   //destructure event
   const setInput = (e) => {
     const {name, value} = e.target;
@@ -44,6 +47,22 @@ function Admin() {
         [name]: value
     }))
 }
+  
+// const setGotData = (e) => {
+//     const {name, value} = e.target;
+//     console.log(value);
+//     if (name === 'Users_ID') {
+//         setPreference(prevState => ({
+//             ...prevState,
+//             [name]: parseInt(value)
+//         }));
+//         return;
+//     }
+//     setPreference(prevState => ({
+//         ...prevState,
+//         [name]: value
+//     }))
+// }
 
   //call backend
  const fetchData = async () => {
@@ -120,6 +139,26 @@ function Admin() {
     console.log(newData);
     setReturnedData(newData[0])
   } 
+
+  // const fetchTimes = async () => {
+  //   //fetch is a built-in library, makes it easier than axios
+  //   const newData = await fetch('/timed', {
+  //     //gets response from backend
+  //     method: 'POST',
+  //     //tells response how data is sent and accepted
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       name: user.Users_ID
+  //     })
+  //   })
+  //   .then(res => res.json())
+  //   console.log(newData);
+  //   setGotData(newData[0])
+  // } 
+
   return (
     <div className="Admin">
       <input 
@@ -144,6 +183,18 @@ function Admin() {
             onChange={setPrefInput}></input>
         <button onClick={() => getData('/testing')}>Look Up Preferences</button>
         <p>Food ID: {dataBack.Food_ID}</p>
+
+        {/* <input 
+            type="number" 
+            name="Users_ID" 
+            placeholder="User ID"
+            onChange={setGotData}></input>
+        <input 
+            name="Time" 
+            placeholder="Time"
+            onChange={setGotData}></input>
+        <button onClick={() => fetchTimes('/timed')}>Look Up Times</button>
+        <p>Time: {gotData.Time}</p> */}
         <Link to='/'>Home</Link>
     </div>
   );

@@ -51,9 +51,36 @@ const addPreference = async(Preference) => {
     }
 }
 
+const getTimes = async(username) => {
+    try {
+        let pool = await sql.connect(config);
+        let clients = await pool.request().query(`SELECT * FROM PickUps WHERE Users_ID = '${username}'`)
+        console.log(clients);
+        return clients;
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+const addTime = async(User) => {
+    try {
+        let pool = await sql.connect(config);
+        let clients = await pool.request().query(`INSERT INTO PickUps (Users_ID, Time) VALUES 
+        (${User.Users_ID}, '${User.Time}'`)
+        console.log(clients);
+        return clients;
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     addPreference,
+    addTime,
     addUser,
     getPreferences,
+    getTimes,
     getUsers
 }
